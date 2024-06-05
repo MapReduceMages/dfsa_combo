@@ -1,0 +1,9 @@
+{
+    "splitter": {
+        "main": "&",
+        "genericLine": "\n",
+        "keyMap": "=",
+        "combo": "=",
+        "comboKeyMap": "+"
+    }
+}
