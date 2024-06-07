@@ -13,7 +13,7 @@ export const parseComboLine = (comboLine: string): Readonly<Combo> | null => {
     if (checkEmpty(comboKey)) throw new Error('Invalid grammar file');
     const comboKeyMaps = combo[1].split(Config.splitter.comboKeyMap);
     if (checkEmpty(comboKeyMaps)) throw new Error('Invalid grammar file');
-    const keyMaps = Immutable.List<string>();
+    const keyMaps: string[] = Array<string>();
     for (const comboKeyMap of comboKeyMaps) {
         if (checkEmpty(comboKeyMap)) throw new Error('Invalid grammar file');
         const sanitizedKeyMap = sanitize(comboKeyMap);
@@ -22,7 +22,7 @@ export const parseComboLine = (comboLine: string): Readonly<Combo> | null => {
 
     return {
         name: comboKey,
-        keyMapKeys: keyMaps
+        keyMapKeys: Immutable.List<string>(keyMaps)
     };
 }
 

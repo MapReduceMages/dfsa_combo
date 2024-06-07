@@ -4,7 +4,7 @@ import type KeyMap from '../models/key_map';
 import { checkEmpty, sanitize } from '../utils/string';
 import Config from '../../config.json';
 
-const parseKeyMapLine = (keyMapLine: string): Readonly<KeyMap> | null => {
+export const parseKeyMapLine = (keyMapLine: string): Readonly<KeyMap> | null => {
     if (checkEmpty(keyMapLine)) return null;
     const sanitizedLine = sanitize(keyMapLine);
 
@@ -25,7 +25,7 @@ const parseKeyMapLine = (keyMapLine: string): Readonly<KeyMap> | null => {
     };
 }
 
-const parseKeyMapPart = (keyMapPart: string): Immutable.List<KeyMap> => {
+export const parseKeyMapPart = (keyMapPart: string): Immutable.List<KeyMap> => {
     const keyMaps = Array<KeyMap>();
 
     const keyMapLines = keyMapPart.split(Config.splitter.genericLine);
