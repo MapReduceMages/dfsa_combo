@@ -1,5 +1,6 @@
+import Immutable from "immutable";
 
-const trim = (str: string): string => {
+export const trim = (str: string): string => {
     const length = str.length;
     let start = 0;
     let end = length - 1;
@@ -24,11 +25,30 @@ const trim = (str: string): string => {
     return result;
 };
 
-export const checkEmpty = (content: string | Array<any>): boolean => {
-    return content === '' || (Array.isArray(content) && content.length === 0);
+export const  checkEmpty = (content: string | undefined | Array<any> | Immutable.List<string>): boolean => {
+    return content === undefined || content === '' || (Array.isArray(content) && content.length === 0) || Immutable.List.isList(content) && content.count() === 0;
 }
 
-export const sanitize = (content: string): string => {
-    return trim(content);
-}
+export const split = (content: string) => (separator: string): Immutable.List<string> => {
+    const parts = Array<string>();
 
+    let part = '';
+    let lastIsSeparator = false;
+    for (let i = 0; i < content.length; i++) {
+        const currentCharacter = content[i];
+        if (currentCharacter === separator) {
+            parts.push(part);
+            part = '';
+            lastIsSeparator = true;
+        } else {
+            part += currentCharacter;
+            lastIsSeparator = false;
+        }
+    }
+
+    if (part !== '' || lastIsSeparator) {
+        parts.push(part);
+    }
+
+    return Immutable.List<string>(parts);
+}
