@@ -8,8 +8,7 @@ import Immutable from 'immutable';
 describe('parseKeyMapLine', () => {
     // ----------------------------------------------- skip
     it('empty', () => {
-        const result = parseKeyMapLine('');
-        expect(result).toBeNull();
+        expect(parseKeyMapLine('')).toBeNull();
     });
 
     // ----------------------------------------------- valid line single key

@@ -8,8 +8,7 @@ import Immutable from 'immutable';
 describe('parseComboLine', () => {
     // ----------------------------------------------- skip
     it('empty', () => {
-        const result = parseComboLine('');
-        expect(result).toBeNull();
+        expect(parseComboLine('')).toBeNull();
     });
 
     // ----------------------------------------------- valid line single key

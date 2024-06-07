@@ -26,7 +26,7 @@ export const trim = (str: string): string => {
     return result;
 };
 
-export const  checkEmpty = (content: string | undefined | Array<any> | Immutable.List<string>): boolean => {
+export const  checkEmpty = (content: string | undefined | Array<any> | Immutable.List<any>): boolean => {
     return content === undefined || content === '' || (Array.isArray(content) && content.length === 0) || Immutable.List.isList(content) && content.count() === 0;
 }
 
