@@ -11,7 +11,7 @@ const parseGrammarFile = (path: string): Readonly<GameSet> => {
     const grammarContent = readGrammarFile(path);
 
     // ------------------ Split main parts
-    const mainParts = split(grammarContent)(Config.splitter.main);
+    const mainParts = split(Config.splitter.main)(grammarContent);
     if (mainParts.count() !== 2) {
         throw new Error('Invalid grammar file');
     }

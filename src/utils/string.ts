@@ -1,4 +1,5 @@
 import Immutable from "immutable";
+import Config from '../../config.json';
 
 export const trim = (str: string): string => {
     const length = str.length;
@@ -29,7 +30,7 @@ export const  checkEmpty = (content: string | undefined | Array<any> | Immutable
     return content === undefined || content === '' || (Array.isArray(content) && content.length === 0) || Immutable.List.isList(content) && content.count() === 0;
 }
 
-export const split = (content: string) => (separator: string): Immutable.List<string> => {
+export const split = (separator: string) => (content: string): Immutable.List<string> => {
     const parts = Array<string>();
 
     let part = '';
@@ -52,3 +53,5 @@ export const split = (content: string) => (separator: string): Immutable.List<st
 
     return Immutable.List<string>(parts);
 }
+
+export const splitLines = split(Config.splitter.genericLine);

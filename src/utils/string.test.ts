@@ -88,7 +88,7 @@ describe('checkEmpty', () => {
 describe('split', () => {
     // ----------------------------------------------- empty
     it('empty', () => {
-        const result = split("")("a");
+        const result = split("a")("");
         expect(result).toEqual(Immutable.List([]));
     });
 
@@ -138,7 +138,7 @@ describe('split', () => {
 
     for (const test of tests) {
         it(`valid: ${test.content}`, () => {
-            expect(split(test.content)(test.separator)).toEqual(test.expected);
+            expect(split(test.separator)(test.content)).toEqual(test.expected);
         });
     }
 });
