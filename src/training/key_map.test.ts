@@ -3,8 +3,6 @@ import Config from '../../config.json';
 import KeyMap from '../models/key_map';
 import Immutable from 'immutable';
 
-// Not checked : untrimmed strings
-
 describe('parseKeyMapLine', () => {
     // ----------------------------------------------- skip
     it('empty', () => {
@@ -36,6 +34,14 @@ describe('parseKeyMapLine', () => {
         const computedValidSingleKeyLine = `${validSingleKeyLine.key}${Config.splitter.keyMap}${validSingleKeyLine.value}`;
         it(`single key: ${validSingleKeyLine.key}-${validSingleKeyLine.value}`, () => {
             expect(parseKeyMapLine(computedValidSingleKeyLine)).toEqual(validSingleKeyLines[validSingleKeyLineIndex++]);
+        });
+    }
+
+    let validSingleKeyUntrimLineIndex = 0;
+    for (const validSingleKeyLine of validSingleKeyLines) {
+        const computedValidSingleKeyLine = ` ${validSingleKeyLine.key} ${Config.splitter.keyMap} ${validSingleKeyLine.value} `;
+        it(`single key (untrim): ${validSingleKeyLine.key}-${validSingleKeyLine.value}`, () => {
+            expect(parseKeyMapLine(computedValidSingleKeyLine)).toEqual(validSingleKeyLines[validSingleKeyUntrimLineIndex++]);
         });
     }
 

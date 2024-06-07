@@ -3,8 +3,6 @@ import Config from '../../config.json';
 import Combo from '../models/combo';
 import Immutable from 'immutable';
 
-// Not checked : untrimmed strings
-
 describe('parseComboLine', () => {
     // ----------------------------------------------- skip
     it('empty', () => {
@@ -39,6 +37,14 @@ describe('parseComboLine', () => {
         });
     }
 
+    let validSingleKeyUntrimLineIndex = 0;
+    for (const validSingleKeyLine of validSingleKeyLines) {
+        const computedValidSingleKeyLine = ` ${validSingleKeyLine.name} ${Config.splitter.combo} ${validSingleKeyLine.keyMapKeys.get(0)} `;
+        it(`single key (untrim): ${validSingleKeyLine.name}-${validSingleKeyLine.keyMapKeys.get(0)}`, () => {
+            expect(parseComboLine(computedValidSingleKeyLine)).toEqual(validSingleKeyLines[validSingleKeyUntrimLineIndex++]);
+        });
+    }
+
     // ----------------------------------------------- valid line multi key
     const validMultiKeyLines: Combo[] = [
         {
@@ -65,6 +71,14 @@ describe('parseComboLine', () => {
         const computedValidMultiKeyLine = `${validMultiKeyLine.name}${Config.splitter.combo}${validMultiKeyLine.keyMapKeys.toArray().join(Config.splitter.comboKeyMap)}`;
         it(`single key: ${validMultiKeyLine.name}-${validMultiKeyLine.keyMapKeys.get(0)}`, () => {
             expect(parseComboLine(computedValidMultiKeyLine)).toEqual(validMultiKeyLines[validMultiKeyLineIndex++]);
+        });
+    }
+
+    let validMultiKeyUntrimLineIndex = 0;
+    for (const validMultiKeyLine of validMultiKeyLines) {
+        const computedValidMultiKeyLine = ` ${validMultiKeyLine.name} ${Config.splitter.combo} ${validMultiKeyLine.keyMapKeys.toArray().join(" " + Config.splitter.comboKeyMap + " ")}`;
+        it(`single key (untrim): ${validMultiKeyLine.name}-${validMultiKeyLine.keyMapKeys.get(0)}`, () => {
+            expect(parseComboLine(computedValidMultiKeyLine)).toEqual(validMultiKeyLines[validMultiKeyUntrimLineIndex++]);
         });
     }
 
