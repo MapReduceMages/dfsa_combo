@@ -3,6 +3,8 @@ import Config from '../../config.json';
 import Combo from '../models/combo';
 import Immutable from 'immutable';
 
+// Not checked : untrimmed strings
+
 describe('parseComboLine', () => {
     // ----------------------------------------------- skip
     it('empty', () => {

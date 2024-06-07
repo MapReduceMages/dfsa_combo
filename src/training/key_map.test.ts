@@ -3,6 +3,8 @@ import Config from '../../config.json';
 import KeyMap from '../models/key_map';
 import Immutable from 'immutable';
 
+// Not checked : untrimmed strings
+
 describe('parseKeyMapLine', () => {
     // ----------------------------------------------- skip
     it('empty', () => {

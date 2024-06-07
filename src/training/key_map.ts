@@ -11,13 +11,13 @@ export const parseKeyMapLine = (keyMapLine: string): Readonly<KeyMap> | null => 
     const keyMap = sanitizedLine.split(Config.splitter.keyMap);
 
     if (keyMap.length !== 2) {
-        throw new Error('Invalid grammar file');
+        throw new Error('Key map line must have exactly one key and one value separated by a colon');
     }
 
     const key = keyMap[0];
-    if (checkEmpty(key)) throw new Error('Invalid grammar file');
+    if (checkEmpty(key)) throw new Error('Key map line must have a key');
     const value = keyMap[1];
-    if (checkEmpty(value)) throw new Error('Invalid grammar file');
+    if (checkEmpty(value)) throw new Error('Key map line must have a value');
 
     return {
         key: key,
@@ -38,7 +38,7 @@ export const parseKeyMapPart = (keyMapPart: string): Immutable.List<KeyMap> => {
         }
     }
 
-    if (checkEmpty(keyMaps)) throw new Error('Invalid grammar file');
+    if (checkEmpty(keyMaps)) throw new Error('No key maps found');
 
 
     return Immutable.List(keyMaps);
