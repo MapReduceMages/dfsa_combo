@@ -1,4 +1,4 @@
-import { Set } from 'immutable';
+import { OrderedSet, Set } from 'immutable';
 
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
@@ -116,7 +116,16 @@ const main = () => {
 
 	// send inputs to state machine
 	handleTTYInputs((keys) => {
-		console.log(keys.toArray());
+		const currentKeys = gameSet.keyMaps.filter((keyMap) => keys.has(keyMap.key)).map((keyMap) => keyMap.value);
+		const currentCombos = gameSet.combos.filter((combo) => combo.keyMapKeys.isSubset(currentKeys))
+
+		if (currentCombos.size > 0) {
+			const currentCombo = currentCombos.first();
+
+			if (currentCombo !== undefined) {
+				console.log(`${currentCombo.keyMapKeys.toArray()} -> ${currentCombo.name}`);
+			}
+		}
 	});
 }
 
