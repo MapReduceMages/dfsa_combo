@@ -7,6 +7,7 @@
     "typescript": "^5.4.5"
   },
   "scripts": {
+    "exec": "npx tsx src/main.ts",
     "build": "tsc",
     "watch": "npx tsc-watch --onSuccess \"node ./build/main.js\"",
     "test": "jest"
@@ -14,8 +15,10 @@
   "dependencies": {
     "@types/chai": "^4.3.16",
     "@types/immutable": "^3.8.7",
+    "@types/yargs": "^17.0.32",
     "fs": "^0.0.1-security",
     "immutable": "^4.3.6",
-    "tsc-watch": "^6.2.0"
+    "tsc-watch": "^6.2.0",
+    "yargs": "^17.7.2"
   }
 }
