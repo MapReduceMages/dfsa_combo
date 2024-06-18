@@ -6,11 +6,12 @@ import {actionsAreStartOfComboCheck} from './check';
 
 export const EMPTY_STATE = "";
 
-const actionsToState = (actions: Actions): State => {
+export const actionsToState = (actions: Actions): State => {
     return actions.join(config.splitter.keyMap)
 }
 
 export const stateToActions = (state: State): Actions => {
+    if (state === EMPTY_STATE) return Immutable.List();
     return Immutable.List(state.split(config.splitter.keyMap))
 }
 
