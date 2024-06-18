@@ -1,5 +1,5 @@
 import type { State, Actions } from '../models/state';
-import { actionsToState, stateToActions, cleantate } from './state'
+import { actionsToState, stateToActions, cleanState } from './state'
 import config from "../../config.json"
 import Immutable from 'immutable';
 

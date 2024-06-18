@@ -6,17 +6,20 @@ import {actionsAreStartOfComboCheck} from './check';
 
 export const EMPTY_STATE = "";
 
+// actionsToState converts a list of actions to a state
 export const actionsToState = (actions: Actions): State => {
     return actions.join(config.splitter.keyMap)
 }
 
+// stateToActions converts a state to a list of actions
 export const stateToActions = (state: State): Actions => {
     if (state === EMPTY_STATE) return Immutable.List();
     return Immutable.List(state.split(config.splitter.keyMap))
 }
 
-export const cleantate = (gameset: Readonly<GameSet>) => (actions: Actions): State => {
+// cleanState pop the actions from the state until it is the start of a combo
+export const cleanState = (gameset: Readonly<GameSet>) => (actions: Actions): State => {
     if (actions.count() === 1 || actionsAreStartOfComboCheck(gameset)(actions))
         return actionsToState(actions);
-    return cleantate(gameset)(actions.pop());
+    return cleanState(gameset)(actions.pop());
 }

@@ -1,8 +1,9 @@
 import GameSet from "../models/game_set";
 import type { State } from '../models/state';
 import { actionAreComboCheck } from './check'
-import { stateToActions, cleantate, EMPTY_STATE} from './state'
+import { stateToActions, cleanState, EMPTY_STATE} from './state'
 
+// DFSA is a Deterministic Finite State Automaton returning the next state from the current state and a key
 const DFSA = (gameset: Readonly<GameSet>) => (state: State) => (key: string): State => {
     // ------------------------------------------------ undefined action
     const action = gameset.keyMaps.find((keyMap) => keyMap.key === key)?.action;
@@ -17,7 +18,7 @@ const DFSA = (gameset: Readonly<GameSet>) => (state: State) => (key: string): St
     if (combo !== undefined) return combo;
 
     // ------------------------------------------------ clear state
-    return cleantate(gameset)(actions);
+    return cleanState(gameset)(actions);
 }
 
 export default DFSA;
