@@ -13,34 +13,34 @@ describe('parseComboLine', () => {
     const validSingleKeyLines: Combo[] = [
         {
             name: 'a',
-            keyMapKeys: Immutable.List(['b']),
+            actions: Immutable.List(['b']),
         },
         {
             name: 'b',
-            keyMapKeys: Immutable.List(['a']),
+            actions: Immutable.List(['a']),
         },
         {
             name: 'super',
-            keyMapKeys: Immutable.List(['test']),
+            actions: Immutable.List(['test']),
         },
         {
             name: 'longnamewithlotsofcharacters',
-            keyMapKeys: Immutable.List(['longkeymapkeyswithlotsofcharacters']),
+            actions: Immutable.List(['longkeymapkeyswithlotsofcharacters']),
         },
     ];
 
     let validSingleKeyLineIndex = 0;
     for (const validSingleKeyLine of validSingleKeyLines) {
-        const computedValidSingleKeyLine = `${validSingleKeyLine.name}${Config.splitter.combo}${validSingleKeyLine.keyMapKeys.get(0)}`;
-        it(`single key: ${validSingleKeyLine.name}-${validSingleKeyLine.keyMapKeys.get(0)}`, () => {
+        const computedValidSingleKeyLine = `${validSingleKeyLine.name}${Config.splitter.combo}${validSingleKeyLine.actions.get(0)}`;
+        it(`single key: ${validSingleKeyLine.name}-${validSingleKeyLine.actions.get(0)}`, () => {
             expect(parseComboLine(computedValidSingleKeyLine)).toEqual(validSingleKeyLines[validSingleKeyLineIndex++]);
         });
     }
 
     let validSingleKeyUntrimLineIndex = 0;
     for (const validSingleKeyLine of validSingleKeyLines) {
-        const computedValidSingleKeyLine = ` ${validSingleKeyLine.name} ${Config.splitter.combo} ${validSingleKeyLine.keyMapKeys.get(0)} `;
-        it(`single key (untrim): ${validSingleKeyLine.name}-${validSingleKeyLine.keyMapKeys.get(0)}`, () => {
+        const computedValidSingleKeyLine = ` ${validSingleKeyLine.name} ${Config.splitter.combo} ${validSingleKeyLine.actions.get(0)} `;
+        it(`single key (untrim): ${validSingleKeyLine.name}-${validSingleKeyLine.actions.get(0)}`, () => {
             expect(parseComboLine(computedValidSingleKeyLine)).toEqual(validSingleKeyLines[validSingleKeyUntrimLineIndex++]);
         });
     }
@@ -49,35 +49,35 @@ describe('parseComboLine', () => {
     const validMultiKeyLines: Combo[] = [
         {
             name: 'a',
-            keyMapKeys: Immutable.List(['b', 'c']),
+            actions: Immutable.List(['b', 'c']),
         },
         {
             name: 'c',
-            keyMapKeys: Immutable.List(['b', 'a']),
+            actions: Immutable.List(['b', 'a']),
         },
         {
             name: 'super',
-            keyMapKeys: Immutable.List(['test', 'with', 'more', 'keys']),
+            actions: Immutable.List(['test', 'with', 'more', 'keys']),
         },
         {
             name: 'longnamewithlotsofcharacters',
-            keyMapKeys: Immutable.List(['longkeymapkeyswithlotsofcharacters', 'x', 'y', 'z']),
+            actions: Immutable.List(['longkeymapkeyswithlotsofcharacters', 'x', 'y', 'z']),
         },
 
     ];
 
     let validMultiKeyLineIndex = 0;
     for (const validMultiKeyLine of validMultiKeyLines) {
-        const computedValidMultiKeyLine = `${validMultiKeyLine.name}${Config.splitter.combo}${validMultiKeyLine.keyMapKeys.toArray().join(Config.splitter.comboKeyMap)}`;
-        it(`single key: ${validMultiKeyLine.name}-${validMultiKeyLine.keyMapKeys.get(0)}`, () => {
+        const computedValidMultiKeyLine = `${validMultiKeyLine.name}${Config.splitter.combo}${validMultiKeyLine.actions.toArray().join(Config.splitter.comboKeyMap)}`;
+        it(`single key: ${validMultiKeyLine.name}-${validMultiKeyLine.actions.get(0)}`, () => {
             expect(parseComboLine(computedValidMultiKeyLine)).toEqual(validMultiKeyLines[validMultiKeyLineIndex++]);
         });
     }
 
     let validMultiKeyUntrimLineIndex = 0;
     for (const validMultiKeyLine of validMultiKeyLines) {
-        const computedValidMultiKeyLine = ` ${validMultiKeyLine.name} ${Config.splitter.combo} ${validMultiKeyLine.keyMapKeys.toArray().join(" " + Config.splitter.comboKeyMap + " ")}`;
-        it(`single key (untrim): ${validMultiKeyLine.name}-${validMultiKeyLine.keyMapKeys.get(0)}`, () => {
+        const computedValidMultiKeyLine = ` ${validMultiKeyLine.name} ${Config.splitter.combo} ${validMultiKeyLine.actions.toArray().join(" " + Config.splitter.comboKeyMap + " ")}`;
+        it(`single key (untrim): ${validMultiKeyLine.name}-${validMultiKeyLine.actions.get(0)}`, () => {
             expect(parseComboLine(computedValidMultiKeyLine)).toEqual(validMultiKeyLines[validMultiKeyUntrimLineIndex++]);
         });
     }
@@ -129,37 +129,37 @@ describe('parseComboPart', () => {
         [
             {
                 name: 'a',
-                keyMapKeys: Immutable.List(['b']),
+                actions: Immutable.List(['b']),
             },
             {
                 name: 'b',
-                keyMapKeys: Immutable.List(['a']),
+                actions: Immutable.List(['a']),
             },
             {
                 name: 'super',
-                keyMapKeys: Immutable.List(['test']),
+                actions: Immutable.List(['test']),
             },
             {
                 name: 'longnamewithlotsofcharacters',
-                keyMapKeys: Immutable.List(['longkeymapkeyswithlotsofcharacters']),
+                actions: Immutable.List(['longkeymapkeyswithlotsofcharacters']),
             },
         ],
         [
             {
                 name: 'a',
-                keyMapKeys: Immutable.List(['b', 'c']),
+                actions: Immutable.List(['b', 'c']),
             },
             {
                 name: 'c',
-                keyMapKeys: Immutable.List(['b', 'a']),
+                actions: Immutable.List(['b', 'a']),
             },
             {
                 name: 'super',
-                keyMapKeys: Immutable.List(['test', 'with', 'more', 'keys']),
+                actions: Immutable.List(['test', 'with', 'more', 'keys']),
             },
             {
                 name: 'longnamewithlotsofcharacters',
-                keyMapKeys: Immutable.List(['longkeymapkeyswithlotsofcharacters', 'x', 'y', 'z']),
+                actions: Immutable.List(['longkeymapkeyswithlotsofcharacters', 'x', 'y', 'z']),
             },
         ],
     ];
@@ -167,7 +167,7 @@ describe('parseComboPart', () => {
     let validComboPartIndex = 0;
     let testIndexLabel = 0;
     for (const validComboPart of validComboParts) {
-        const computedValidComboPart = validComboPart.map((combo) => `${combo.name}${Config.splitter.combo}${combo.keyMapKeys.toArray().join(Config.splitter.comboKeyMap)}`).join('\n');
+        const computedValidComboPart = validComboPart.map((combo) => `${combo.name}${Config.splitter.combo}${combo.actions.toArray().join(Config.splitter.comboKeyMap)}`).join('\n');
         it(`valid combo part ${testIndexLabel++}`, () => {
             expect(parseComboPart(computedValidComboPart)).toEqual(Immutable.List(validComboParts[validComboPartIndex++]));
         });
@@ -176,7 +176,7 @@ describe('parseComboPart', () => {
     let validComboPartWithEmptyLinesIndex = 0;
     testIndexLabel = 0;
     for (const validComboPart of validComboParts) {
-        const computedValidComboPartWithEmptyLines = "\n" + validComboPart.map((combo) => `${combo.name}${Config.splitter.combo}${combo.keyMapKeys.toArray().join(Config.splitter.comboKeyMap)}`).join('\n\n');
+        const computedValidComboPartWithEmptyLines = "\n" + validComboPart.map((combo) => `${combo.name}${Config.splitter.combo}${combo.actions.toArray().join(Config.splitter.comboKeyMap)}`).join('\n\n');
         it(`valid combo part ${testIndexLabel++}`, () => {
             expect(parseComboPart(computedValidComboPartWithEmptyLines)).toEqual(Immutable.List(validComboParts[validComboPartWithEmptyLinesIndex++]));
         });
@@ -231,7 +231,7 @@ describe('parseComboPart', () => {
 
     testIndexLabel = 0;
     for (const invalidCorruptedMissingSideComboPart of validComboParts) {
-        const computedinValidCorruptedMissingSideComboPart = invalidCorruptedMissingSideComboPart.map((combo) => `${combo.name}${Config.splitter.combo}${combo.keyMapKeys.toArray().join(Config.splitter.comboKeyMap)}`).join('\n') + "\n" + missingSideComboParts[0] + "\n";
+        const computedinValidCorruptedMissingSideComboPart = invalidCorruptedMissingSideComboPart.map((combo) => `${combo.name}${Config.splitter.combo}${combo.actions.toArray().join(Config.splitter.comboKeyMap)}`).join('\n') + "\n" + missingSideComboParts[0] + "\n";
         it(`corrupted combo part (missing side) ${testIndexLabel++}`, () => {
             expect(() => parseComboPart(computedinValidCorruptedMissingSideComboPart)).toThrow();
         });
@@ -239,7 +239,7 @@ describe('parseComboPart', () => {
 
     testIndexLabel = 0;
     for (const invalidCorruptedEmtpyRightSideKeyMapComboPart of validComboParts) {
-        const computedinValidCorruptedEmtpyRightSideKeyMapComboPart = invalidCorruptedEmtpyRightSideKeyMapComboPart.map((combo) => `${combo.name}${Config.splitter.combo}${combo.keyMapKeys.toArray().join(Config.splitter.comboKeyMap)}`).join('\n') + "\n" + emptyRightSideKeyMapLines[0] + "\n";
+        const computedinValidCorruptedEmtpyRightSideKeyMapComboPart = invalidCorruptedEmtpyRightSideKeyMapComboPart.map((combo) => `${combo.name}${Config.splitter.combo}${combo.actions.toArray().join(Config.splitter.comboKeyMap)}`).join('\n') + "\n" + emptyRightSideKeyMapLines[0] + "\n";
         it(`corrupted combo part (missing right side key map) ${testIndexLabel++}`, () => {
             expect(() => parseComboPart(computedinValidCorruptedEmtpyRightSideKeyMapComboPart)).toThrow();
         });

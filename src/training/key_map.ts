@@ -20,7 +20,7 @@ export const parseKeyMapLine = (keyMapLine: string): Readonly<KeyMap> | null => 
 
     return {
         key: trimedKey,
-        value: trimedValue,
+        action: trimedValue,
     } as Readonly<KeyMap>;
 }
 

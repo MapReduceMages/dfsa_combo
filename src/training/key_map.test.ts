@@ -13,34 +13,34 @@ describe('parseKeyMapLine', () => {
     const validSingleKeyLines: KeyMap[] = [
         {
             key: 'a',
-            value: 'b',
+            action: 'b',
         },
         {
             key: 'b',
-            value: 'a',
+            action: 'a',
         },
         {
             key: 'super',
-            value: 'test',
+            action: 'test',
         },
         {
             key: 'longnamewithlotsofcharacters',
-            value: 'longkeymapkeyswithlotsofcharacters',
+            action: 'longkeymapkeyswithlotsofcharacters',
         },
     ];
 
     let validSingleKeyLineIndex = 0;
     for (const validSingleKeyLine of validSingleKeyLines) {
-        const computedValidSingleKeyLine = `${validSingleKeyLine.key}${Config.splitter.keyMap}${validSingleKeyLine.value}`;
-        it(`single key: ${validSingleKeyLine.key}-${validSingleKeyLine.value}`, () => {
+        const computedValidSingleKeyLine = `${validSingleKeyLine.key}${Config.splitter.keyMap}${validSingleKeyLine.action}`;
+        it(`single key: ${validSingleKeyLine.key}-${validSingleKeyLine.action}`, () => {
             expect(parseKeyMapLine(computedValidSingleKeyLine)).toEqual(validSingleKeyLines[validSingleKeyLineIndex++]);
         });
     }
 
     let validSingleKeyUntrimLineIndex = 0;
     for (const validSingleKeyLine of validSingleKeyLines) {
-        const computedValidSingleKeyLine = ` ${validSingleKeyLine.key} ${Config.splitter.keyMap} ${validSingleKeyLine.value} `;
-        it(`single key (untrim): ${validSingleKeyLine.key}-${validSingleKeyLine.value}`, () => {
+        const computedValidSingleKeyLine = ` ${validSingleKeyLine.key} ${Config.splitter.keyMap} ${validSingleKeyLine.action} `;
+        it(`single key (untrim): ${validSingleKeyLine.key}-${validSingleKeyLine.action}`, () => {
             expect(parseKeyMapLine(computedValidSingleKeyLine)).toEqual(validSingleKeyLines[validSingleKeyUntrimLineIndex++]);
         });
     }
@@ -81,19 +81,19 @@ describe('parseKeyMapPart', () => {
         [
             {
                 key: 'a',
-                value: 'b',
+                action: 'b',
             },
             {
                 key: 'b',
-                value: 'a',
+                action: 'a',
             },
             {
                 key: 'super',
-                value: 'test',
+                action: 'test',
             },
             {
                 key: 'longnamewithlotsofcharacters',
-                value: 'longkeymapkeyswithlotsofcharacters',
+                action: 'longkeymapkeyswithlotsofcharacters',
             },
         ],
     ];
@@ -101,7 +101,7 @@ describe('parseKeyMapPart', () => {
     let validKeyMapIndex = 0;
     let testIndexLabel = 0;
     for (const validKeyMap of validKeyMaps) {
-        const computedValidKeyMap = validKeyMap.map((combo) => `${combo.key}${Config.splitter.keyMap}${combo.value}`).join('\n');
+        const computedValidKeyMap = validKeyMap.map((combo) => `${combo.key}${Config.splitter.keyMap}${combo.action}`).join('\n');
         it(`valid combo part ${testIndexLabel++}`, () => {
             expect(parseKeyMapPart(computedValidKeyMap)).toEqual(Immutable.List(validKeyMaps[validKeyMapIndex++]));
         });
@@ -110,7 +110,7 @@ describe('parseKeyMapPart', () => {
     let validKeyMapWithEmptyLinesIndex = 0;
     testIndexLabel = 0;
     for (const validKeyMap of validKeyMaps) {
-        const computedValidKeyMapWithEmptyLines = "\n" + validKeyMap.map((combo) => `${combo.key}${Config.splitter.keyMap}${combo.value}`).join('\n\n');
+        const computedValidKeyMapWithEmptyLines = "\n" + validKeyMap.map((combo) => `${combo.key}${Config.splitter.keyMap}${combo.action}`).join('\n\n');
         it(`valid combo part ${testIndexLabel++}`, () => {
             expect(parseKeyMapPart(computedValidKeyMapWithEmptyLines)).toEqual(Immutable.List(validKeyMaps[validKeyMapWithEmptyLinesIndex++]));
         });
@@ -150,7 +150,7 @@ describe('parseKeyMapPart', () => {
 
     testIndexLabel = 0;
     for (const invalidCorruptedMissingSideKeyMap of validKeyMaps) {
-        const computedinValidCorruptedMissingSideKeyMap = invalidCorruptedMissingSideKeyMap.map((combo) => `${combo.key}${Config.splitter.keyMap}${combo.value}`).join('\n') + "\n" + missingSideKeyMaps[0] + "\n";
+        const computedinValidCorruptedMissingSideKeyMap = invalidCorruptedMissingSideKeyMap.map((combo) => `${combo.key}${Config.splitter.keyMap}${combo.action}`).join('\n') + "\n" + missingSideKeyMaps[0] + "\n";
         it(`corrupted combo part (missing side) ${testIndexLabel++}`, () => {
             expect(() => parseKeyMapPart(computedinValidCorruptedMissingSideKeyMap)).toThrow();
         });
