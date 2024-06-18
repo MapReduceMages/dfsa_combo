@@ -1,10 +1,8 @@
 import GameSet from "../models/game_set";
 import config from "../../config.json"
 import Immutable from "immutable";
-import type { State, Actions } from '../models/state';
+import { EMPTY_STATE, type State, type Actions} from '../models/state';
 import {actionsAreStartOfComboCheck} from './check';
-
-export const EMPTY_STATE = "";
 
 // actionsToState converts a list of actions to a state
 export const actionsToState = (actions: Actions): State => {
