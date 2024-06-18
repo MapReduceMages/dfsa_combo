@@ -22,7 +22,7 @@ export const parseComboLine = (comboLine: string): Readonly<Combo> | null => {
 
     return {
         name: trimedComboKey,
-        keyMapKeys: trimedComboKeyMaps,
+        actions: trimedComboKeyMaps,
     } as Readonly<Combo>;
 }
 

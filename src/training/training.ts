@@ -1,20 +1,21 @@
+import DFSA from '../automaton/DFSA';
+import Automaton from '../models/automaton';
+import GameSet from '../models/game_set';
+import parse from './parsing';
 
-import type GameSet from '../models/game_set';
-import Config from '../../config.json';
-import parseKeyMapPart from './key_map';
-import parseComboPart from './combo';
-import { split, splitLines } from '../utils/string';
-
-const parseGrammarFile = (grammarContent: string): Readonly<GameSet> => {
-    const mainParts = split(Config.splitter.main)(grammarContent);
-    if (mainParts.count() !== 2) {
-        throw new Error('Invalid grammar file');
-    }
-
-    return {
-       keyMaps: parseKeyMapPart(mainParts.get(0)!),
-       combos: parseComboPart(mainParts.get(1)!),
-    } as Readonly<GameSet>;
+interface TrainingOutput {
+    gameSet: GameSet,
+    automaton: Automaton
 }
 
-export default parseGrammarFile
+const training = (grammar: string): TrainingOutput => {
+    const gameSet = parse(grammar)
+    const automaton = DFSA(gameSet)
+
+    return <TrainingOutput>{
+        gameSet,
+        automaton
+    }
+}
+
+export default training

@@ -5,7 +5,7 @@ import { hideBin } from 'yargs/helpers';
 import fs from 'fs';
 import readline from 'readline';
 
-import parseGrammarFile from "./training/training";
+import parseGrammarFile from "./training/parsing";
 
 const KEY_TIMEOUT = 20;
 
