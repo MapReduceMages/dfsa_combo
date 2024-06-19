@@ -4,8 +4,11 @@ import { hideBin } from 'yargs/helpers';
 import fs from 'fs';
 import readline from 'readline';
 
+import comboDisplay from './utils/combo_display';
+import keyDisplay from './utils/key_display';
 import training, { TrainingOutput } from './training/training';
 import { EMPTY_STATE, INITIAL_STATE } from './models/state';
+import { stateToActions } from './automaton/state';
 
 const KEY_TIMEOUT = 200;
 
@@ -26,7 +29,6 @@ const tryWrapper =
 		}
 	};
 const readFile = (path: string): string | Error => tryWrapper(fs.readFileSync)(path, 'utf-8');
-
 const getArgs = (args : string[]) : string[] => hideBin(args)
 
 // side effects
@@ -87,32 +89,28 @@ const main = () => {
 		handleError(machine.message);
 	}
 
-    console.log("Key mappings -----------------------------------");
-    console.log(machine.gameSet.combos.toArray());
-    console.log(machine.gameSet.keyMaps.toArray());
+    console.log("Combos:");
+    console.log(comboDisplay(machine.gameSet.combos));
+    console.log("Key Mappings:");
+    console.log(keyDisplay(machine.gameSet.keyMaps));
+    console.log("-----------------------------------------");
 
     // setup TTY
     enableRawTTY();
 
-	var state = INITIAL_STATE
+	var state = INITIAL_STATE;
 	// send inputs to state machine
 	handleTTYInputs(
 		// update
 		(key) => {
-			console.log("=============================================")
-			console.log("ca rentre avec "+ state + " et " + key)
 			state = machine.automaton(state)(key);
-			console.log("ca sort avec "+ state + " et " + key)
-			console.log("-------------------------")
-			console.log("ca rentre avec "+ state + " et " + key)
-			state = machine.automaton(state)(key);
-			console.log("ca sort avec "+ state + " et " + key)
 		}
 	)(
 		// timeout
 		() => {
-			if (state.length > 0)
-				console.log(state);
+			if (state.length > 0) {
+				console.log(`${state}\n`);
+			}
 
 			state = EMPTY_STATE;
 		}

@@ -11,6 +11,7 @@ u=Switch Stance
 q=Throw
 &
 🤠Punch=Front Punch
+🤠🤠Punch=Front Punch
 👺Punch=Back Punch
 Uppercut=Crouch+Back Punch
 Doom Slice=Right+Back Punch
@@ -19,3 +20,4 @@ Heel Kicks=Right+Front Kick
 Shin Blast=Right+Back Kick
 Sweep=Left+Back Kick
 Spear (Get Over Here!)=Left+Left+Front Punch
+Spear2 (Get Over Here!)=Left+Left+Front Punch
