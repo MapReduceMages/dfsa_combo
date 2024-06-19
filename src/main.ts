@@ -1,15 +1,15 @@
-import { OrderedSet, Set } from 'immutable';
+import { List } from 'immutable';
 
-import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import fs from 'fs';
 import readline from 'readline';
 
-import parseGrammarFile from "./training/parsing";
+import training, { TrainingOutput } from './training/training';
+import { EMPTY_STATE, INITIAL_STATE } from './models/state';
 
-const KEY_TIMEOUT = 20;
+const KEY_TIMEOUT = 200;
 
-const error = (msg: string, yg?: any) => {
+const handleError = (msg: string, yg?: any) => {
 	console.error('[ERROR]', msg);
 	if (yg) console.log(yg.help());
 	process.exit(1);
@@ -27,21 +27,7 @@ const tryWrapper =
 	};
 const readFile = (path: string): string | Error => tryWrapper(fs.readFileSync)(path, 'utf-8');
 
-const getArgs = () =>
-    yargs(hideBin(process.argv))
-		.command('$0 <grammar>', 'Runs a fighting game automaton')
-		.scriptName('ft_ality')
-		.positional('grammar', {
-			describe: 'input grammar file',
-			type: 'string',
-			demandOption: 'true',
-		})
-		.fail((msg, _, yargs) => {
-			error(msg, yargs);
-		})
-		.strict()
-		.parse();
-
+const getArgs = (args : string[]) : string[] => hideBin(args)
 
 // side effects
 const enableRawTTY = () => {
@@ -53,35 +39,23 @@ const enableRawTTY = () => {
 }
 
 
-const handleTTYInputs = (callback: (keys: Set<string>) => void) => {
-    var pressedKeys : Set<string> = Set()
-	var lastPress = new Date();
-	let releaseTimeout: NodeJS.Timeout | null = null;
+const handleTTYInputs = 
+	(update: (key : string) => any) =>
+	(timeout : () => void) => {
 
+	let releaseTimeout: NodeJS.Timeout | null = null;
 	process.stdin.on('keypress', (str, key) => {
-		const currentPress = new Date();
 		// re-implement exit
 		if (key && key.ctrl && key.name === 'c') {
 			process.exit(0);
 		}
 
-		// update pressed keys
-		if (currentPress.getTime() - lastPress.getTime() > KEY_TIMEOUT) {
-			pressedKeys = pressedKeys.clear();
-		}
-		pressedKeys = pressedKeys.add(str);
-
-		// remember press time
-		lastPress = new Date();
-
-		// Hack to detect when the key is released on the TTY since there is no keyup event
+		update(key.name);
 		if (releaseTimeout) {
 			clearTimeout(releaseTimeout);
 		}
 		releaseTimeout = setTimeout(() => {
-			callback(pressedKeys)
-
-			pressedKeys = pressedKeys.clear();
+			timeout();
 		}, KEY_TIMEOUT); 
 	});
 }
@@ -90,43 +64,52 @@ const handleTTYInputs = (callback: (keys: Set<string>) => void) => {
 const main = () => {
 	// check TTY
 	if (process.stdout.isTTY == false) {
-		error('Not a TTY');
+		handleError('Not a TTY');
 	}
 
-    const args = getArgs();
+    const args = getArgs(process.argv);
+	if (args.length < 1)
+		handleError("Grammar file not provided")
 
     // read file
-    const fileContent = readFile(args['grammar'] as string);
+    const fileContent = readFile(args[0])
 	if (typeof fileContent !== 'string') {
-		error(fileContent.message);
+		handleError(fileContent.message);
 	}
 	if (fileContent === '') {
-		error('File is empty');
+		handleError('File is empty');
 	}
 
     // get grammar
-    const gameSet = parseGrammarFile(fileContent as string)
+	var machine : TrainingOutput;
+	machine = tryWrapper(training)(fileContent)
+	if (machine instanceof Error) {
+		handleError(machine.message);
+	}
 
-    console.log("Key mappings -----------------------------------")
-    console.log(gameSet.combos.toArray());
-    console.log(gameSet.keyMaps.toArray());
+    console.log("Key mappings -----------------------------------");
+    console.log(machine.gameSet.combos.toArray());
+    console.log(machine.gameSet.keyMaps.toArray());
 
     // setup TTY
     enableRawTTY();
 
+	var state = INITIAL_STATE
 	// send inputs to state machine
-	handleTTYInputs((keys) => {
-		const currentKeys = gameSet.keyMaps.filter((keyMap) => keys.has(keyMap.key)).map((keyMap) => keyMap.value);
-		const currentCombos = gameSet.combos.filter((combo) => combo.keyMapKeys.isSubset(currentKeys))
-
-		if (currentCombos.size > 0) {
-			const currentCombo = currentCombos.first();
-
-			if (currentCombo !== undefined) {
-				console.log(`${currentCombo.keyMapKeys.toArray()} -> ${currentCombo.name}`);
-			}
+	handleTTYInputs(
+		// update
+		(key) => {
+			state = machine.automaton(state)(key);
 		}
-	});
+	)(
+		// timeout
+		() => {
+			if (state.length > 0)
+				console.log(state);
+
+			state = EMPTY_STATE;
+		}
+	);
 }
 
 main();

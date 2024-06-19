@@ -10,6 +10,8 @@ o=Block
 u=Switch Stance
 q=Throw
 &
+🤠Punch=Front Punch
+👺Punch=Back Punch
 Uppercut=Crouch+Back Punch
 Doom Slice=Right+Back Punch
 Blade Overhead=Left+Back Punch

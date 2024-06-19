@@ -3,7 +3,7 @@ import Automaton from '../models/automaton';
 import GameSet from '../models/game_set';
 import parse from './parsing';
 
-interface TrainingOutput {
+export interface TrainingOutput {
     gameSet: GameSet,
     automaton: Automaton
 }
