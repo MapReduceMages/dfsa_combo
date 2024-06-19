@@ -4,6 +4,7 @@
         "genericLine": "\n",
         "keyMap": "=",
         "combo": "=",
-        "comboKeyMap": "+"
+        "comboKeyMap": "+",
+        "multiCombo": "+"
     }
 }
