@@ -17,7 +17,6 @@ export const stateToActions = (state: State): Actions => {
 
 // cleanState pop the actions from the state until it is the start of a combo
 export const cleanState = (gameset: Readonly<GameSet>) => (actions: Actions): State => {
-    if (actions.count() <= 1 || actionsAreStartOfComboCheck(gameset)(actions)) return actionsToState(actions);
-    // return actionsToState(actions);
+    if (actions.count() <= 1 || !actionsAreStartOfComboCheck(gameset)(actions).isEmpty()) return actionsToState(actions);
     return cleanState(gameset)(actions.shift());
 }

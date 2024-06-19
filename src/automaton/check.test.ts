@@ -87,10 +87,11 @@ describe('actionsAreStartOfComboCheck', () => {
             { name: "COMBO_AB", actions: Immutable.List(['ACTION_A', 'ACTION_B']) },
             { name: "COMBO_BA", actions: Immutable.List(['ACTION_B', 'ACTION_A']) },
             { name: "COMBO_CAB", actions: Immutable.List(['ACTION_C', 'ACTION_A', 'ACTION_B']) },
+            { name: "COMBO_ACAC", actions: Immutable.List(['ACTION_A', 'ACTION_C', 'ACTION_A', 'ACTION_C']) },
         ]),
     };
 
-    // ------------------------------------------------- false
+    // ------------------------------------------------- empty
     const comboTests = [
         Immutable.List([]),
         Immutable.List(["ACTION_LONG_ACTION_LONG_ACTION_LONG_ACTION_LONG_ACTION"]),
@@ -101,21 +102,30 @@ describe('actionsAreStartOfComboCheck', () => {
     for (const test of comboTests) {
         const state: State = test.join(config.splitter.comboKeyMap);
         it(`false [${state}]`, () => {
-            expect(actionsAreStartOfComboCheck(gameset)(test)).toBeFalsy();
+            expect(actionsAreStartOfComboCheck(gameset)(test).isEmpty()).toBeTruthy();
         });
     }
 
-    // ------------------------------------------------- true
+    // ------------------------------------------------- no empty
     const noComboTests = [
-        Immutable.List(["ACTION_A"]),
-        Immutable.List(["ACTION_B"]),
-        Immutable.List(["ACTION_A", "ACTION_B"]),
+        {
+            actions: Immutable.List(["ACTION_A"]),
+            expectedComboLength: 2,
+        },
+        {
+            actions: Immutable.List(["ACTION_B"]),
+            expectedComboLength: 1,
+        },
+        {
+            actions: Immutable.List(["ACTION_A", "ACTION_B"]),
+            expectedComboLength: 1,
+        },
     ];
 
     for (const test of noComboTests) {
-        const state: State = test.join(config.splitter.comboKeyMap);
+        const state: State = test.actions.join(config.splitter.comboKeyMap);
         it(`true [${state}]`, () => {
-            expect(actionsAreStartOfComboCheck(gameset)(test)).toBeTruthy();
+            expect(actionsAreStartOfComboCheck(gameset)(test.actions).count()).toBe(test.expectedComboLength);
         });
     }
 })
