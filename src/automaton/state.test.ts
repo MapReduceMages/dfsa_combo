@@ -54,10 +54,10 @@ describe('cleanState', () => {
     };
 
     const validTests = [
-        // {
-        //     actions: Immutable.List([]),
-        //     expected: "",
-        // },
+        {
+            actions: Immutable.List([]),
+            expected: "",
+        },
         {
             actions: Immutable.List(['ACTION_A']),
             expected: Immutable.List(['ACTION_A']).join(config.splitter.comboKeyMap),
