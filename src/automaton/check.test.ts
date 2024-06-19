@@ -13,11 +13,13 @@ describe('actionAreComboCheck', () => {
             { key: 'b', action: 'ACTION_B' },
             { key: 'c', action: 'ACTION_C' },
             { key: 'l', action: 'ACTION_LONG_ACTION_LONG_ACTION_LONG_ACTION_LONG_ACTION' },
+            { key: 'z', action: 'ACTION_Z' },
         ]),
         combos: Immutable.List<Combo>([
             { name: "COMBO_AB", actions: Immutable.List(['ACTION_A', 'ACTION_B']) },
             { name: "COMBO_BA", actions: Immutable.List(['ACTION_B', 'ACTION_A']) },
-        ]),
+            { name: "COMBO_Z", actions: Immutable.List(['ACTION_Z']) },
+        ]),actionAreComboCheck
     };
 
     // ------------------------------------------------- no combo
@@ -60,6 +62,10 @@ describe('actionAreComboCheck', () => {
         {
             actions: Immutable.List(["ACTION_A", "ACTION_B"]),
             expected: "COMBO_AB",
+        },
+        {
+            actions: Immutable.List(["ACTION_Z"]),
+            expected: "COMBO_Z",
         },
         {
             actions: Immutable.List(["ACTION_B", "ACTION_A"]),

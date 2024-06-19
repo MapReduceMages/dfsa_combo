@@ -99,7 +99,14 @@ const main = () => {
 	handleTTYInputs(
 		// update
 		(key) => {
+			console.log("=============================================")
+			console.log("ca rentre avec "+ state + " et " + key)
 			state = machine.automaton(state)(key);
+			console.log("ca sort avec "+ state + " et " + key)
+			console.log("-------------------------")
+			console.log("ca rentre avec "+ state + " et " + key)
+			state = machine.automaton(state)(key);
+			console.log("ca sort avec "+ state + " et " + key)
 		}
 	)(
 		// timeout

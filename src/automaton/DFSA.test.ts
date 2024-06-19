@@ -13,11 +13,13 @@ describe('DFSA', () => {
             { key: 'b', action: 'ACTION_B' },
             { key: 'c', action: 'ACTION_C' },
             { key: 'l', action: 'ACTION_LONG_ACTION_LONG_ACTION_LONG_ACTION_LONG_ACTION' },
+            { key: 'q', action: 'ACTION_Q' },
         ]),
         combos: Immutable.List<Combo>([
             { name: "COMBO_AB", actions: Immutable.List(['ACTION_A', 'ACTION_B']) },
             { name: "COMBO_BA", actions: Immutable.List(['ACTION_B', 'ACTION_A']) },
             { name: "COMBO_CAB", actions: Immutable.List(['ACTION_C', 'ACTION_A', 'ACTION_B']) },
+            { name: "COMBO_Q", actions: Immutable.List(['ACTION_Q']) },
         ]),
     };
 
@@ -144,6 +146,16 @@ describe('DFSA', () => {
 
     // ------------------------------------------------- to combo
     const toComboTests = [
+        {
+            state: INITIAL_STATE,
+            key: 'q',
+            expected: "COMBO_Q"
+        },
+        {
+            state: EMPTY_STATE,
+            key: 'q',
+            expected: "COMBO_Q"
+        },
         {
             state: Immutable.List(["ACTION_A"]).join(config.splitter.comboKeyMap),
             key: 'b',

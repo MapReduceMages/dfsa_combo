@@ -9,9 +9,6 @@ const DFSA = (gameset: Readonly<GameSet>) => (state: State) => (key: string): St
     const action = gameset.keyMaps.find((keyMap) => keyMap.key === key)?.action;
     if (action === undefined) return EMPTY_STATE;
 
-    // ------------------------------------------------ first action
-    if (state === EMPTY_STATE || state === INITIAL_STATE) return action
-
     // ------------------------------------------------ check combo
     const actions = stateToActions(state).push(action);
     const combo = actionAreComboCheck(gameset)(actions);
