@@ -23,7 +23,7 @@ export const combosToState = (combos: Immutable.List<Combo>): State => {
 
 // stateToCombos converts a state to a list of combos
 export const stateToCombos = (gameset: Readonly<GameSet>) => (state: State): Immutable.List<Combo> => {
-    return Immutable.List(state.split(config.splitter.comboKeyMap))
+    return split(state)(config.splitter.comboKeyMap)
         .map((combo) => gameset.combos.find((c) => c.name === combo))
         .filter((c) => c !== undefined) as Immutable.List<Combo>;
 }
@@ -32,8 +32,9 @@ export const stateToCombos = (gameset: Readonly<GameSet>) => (state: State): Imm
 export const comboStateToActions = (gameset: Readonly<GameSet>) => (state: State): Actions => {
     if (state === EMPTY_STATE || state === INITIAL_STATE) return Immutable.List();
 
-    const firstStateElement = (Immutable.List(state.split(config.splitter.comboKeyMap))).first();
+    const firstStateElement = split(config.splitter.comboKeyMap)(state).first();
     if (firstStateElement === undefined) return Immutable.List();
+
 
     const firstCombo = gameset.combos.find((c) => c.name === firstStateElement);
 
@@ -49,7 +50,7 @@ export const actionsToState = (actions: Actions): State => {
 // actionStateToActions converts a action state to a list of actions
 export const actionStateToActions = (state: State): Actions => {
     if (state === EMPTY_STATE) return Immutable.List(); // empty state
-    return Immutable.List(state.split(config.splitter.comboKeyMap))
+    return split(config.splitter.comboKeyMap)(state)
 }
 
 // cleanState pop the actions from the state until it is the start of a combo

@@ -3,9 +3,7 @@ import type GameSet from '../models/game_set';
 import Config from '../../config.json';
 import parseKeyMapPart from './key_map';
 import parseComboPart from './combo';
-import { split, splitLines } from '../utils/string';
-import { groupEnd } from 'console';
-import DFSA from '../automaton/DFSA';
+import { split } from '../utils/string';
 
 const parse = (grammar: string): Readonly<GameSet> => {
     const mainParts = split(Config.splitter.main)(grammar);
