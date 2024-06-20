@@ -2,7 +2,7 @@ import GameSet from "../models/game_set";
 import config from "../../config.json"
 import Immutable from "immutable";
 import { EMPTY_STATE, type State, type Actions, INITIAL_STATE } from '../models/state';
-import { actionsAreStartOfComboCheck } from './check';
+import { actionAreComboCheck, actionsAreStartOfComboCheck } from './check';
 import Combo from "../models/combo";
 import { split } from "../utils/string";
 
@@ -54,6 +54,10 @@ export const actionStateToActions = (state: State): Actions => {
 
 // cleanState pop the actions from the state until it is the start of a combo
 export const cleanState = (gameset: Readonly<GameSet>) => (actions: Actions): State => {
-    if (actions.count() <= 1 || !actionsAreStartOfComboCheck(gameset)(actions).isEmpty()) return actionsToState(actions);
+    if (actions.isEmpty()) return EMPTY_STATE;
+    const combos = actionAreComboCheck(gameset)(actions);
+    if (!combos.isEmpty()) return combosToState(combos);
+    const startOfComboActions = actionsAreStartOfComboCheck(gameset)(actions)
+    if (!startOfComboActions.isEmpty()) return actionsToState(actions);
     return cleanState(gameset)(actions.shift());
 }

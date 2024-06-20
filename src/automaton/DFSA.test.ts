@@ -164,6 +164,11 @@ describe('DFSA', () => {
         },
         // ------------ from combo
         {
+            state: Immutable.List(["COMBO_Q"]).join(config.splitter.comboKeyMap),
+            key: 'q',
+            expected: Immutable.List(["COMBO_Q"]).join(config.splitter.comboKeyMap),
+        },
+        {
             state: Immutable.List(["COMBO_AB"]).join(config.splitter.comboKeyMap),
             key: 'a',
             expected: Immutable.List(["COMBO_ABA", "COMBO_ABA_2"]).join(config.splitter.comboKeyMap),

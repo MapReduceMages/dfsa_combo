@@ -1,0 +1,9 @@
+a=action_a
+b=action_b
+c=action_c
+&
+COMBO_A=action_a
+COMBO_A_2=action_a
+COMBO_A_3=action_a
+COMBO_BB=action_b+action_b
+COMBO_BBB=action_b+action_b+action_b

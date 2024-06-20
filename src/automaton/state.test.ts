@@ -263,6 +263,7 @@ describe('cleanState', () => {
     };
 
     const tests = [
+        // ------------ to action
         {
             actions: Immutable.List([]),
             expected: "",
@@ -276,14 +277,6 @@ describe('cleanState', () => {
             expected: Immutable.List(['ACTION_A']).join(config.splitter.comboKeyMap),
         },
         {
-            actions: Immutable.List(['ACTION_C', 'ACTION_B', 'ACTION_A']),
-            expected: Immutable.List(['ACTION_B', 'ACTION_A']).join(config.splitter.comboKeyMap),
-        },
-        {
-            actions: Immutable.List(['ACTION_B', 'ACTION_C', 'ACTION_B', 'ACTION_A']),
-            expected: Immutable.List(['ACTION_B', 'ACTION_A']).join(config.splitter.comboKeyMap),
-        },
-        {
             actions: Immutable.List(['ACTION_C', 'ACTION_A',]),
             expected: Immutable.List(['ACTION_C', 'ACTION_A']).join(config.splitter.comboKeyMap),
         },
@@ -295,6 +288,15 @@ describe('cleanState', () => {
             actions: Immutable.List(['ACTION_B', 'ACTION_C', 'ACTION_C', 'ACTION_A',]),
             expected: Immutable.List(['ACTION_C', 'ACTION_A']).join(config.splitter.comboKeyMap),
         },
+        // ------------ to combo
+        {
+            actions: Immutable.List(['ACTION_B', 'ACTION_C', 'ACTION_B', 'ACTION_A']),
+            expected: Immutable.List(['COMBO_BA']).join(config.splitter.comboKeyMap),
+        },
+        {
+            actions: Immutable.List(['ACTION_C', 'ACTION_B', 'ACTION_A']),
+            expected: Immutable.List(['COMBO_BA']).join(config.splitter.comboKeyMap),
+        },
     ];
 
     for (const test of tests) {
@@ -304,4 +306,3 @@ describe('cleanState', () => {
         });
     }
 })
-

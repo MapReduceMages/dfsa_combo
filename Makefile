@@ -1,9 +1,9 @@
-all: install run
+all: install build
 
-EXAMPLE_GRAMMAR = ./grammars/example_1.gmr
+EXAMPLE_GRAMMAR = ./grammars/example_2.gmr
 
 install:
 	npm install
 
-run:
-	npm run exec ${EXAMPLE_GRAMMAR}
+build:
+	npm run build
