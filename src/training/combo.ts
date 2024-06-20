@@ -1,7 +1,7 @@
 
 import Immutable from 'immutable';
 import { checkEmpty, trim, split, splitLines } from '../utils/string';
-import Config from '../../config.json';
+import Config from './../config.json';
 import type Combo from '../models/combo';
 
 export const parseComboLine = (comboLine: string): Readonly<Combo> | null => {

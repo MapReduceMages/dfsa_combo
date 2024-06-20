@@ -1,5 +1,5 @@
 import GameSet from "../models/game_set";
-import config from "../../config.json"
+import config from "./../config.json"
 import Immutable from "immutable";
 import { EMPTY_STATE, type State, type Actions, INITIAL_STATE } from '../models/state';
 import { actionAreComboCheck, actionsAreStartOfComboCheck } from './check';

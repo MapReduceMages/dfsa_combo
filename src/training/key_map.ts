@@ -2,7 +2,7 @@
 import Immutable from 'immutable';
 import type KeyMap from '../models/key_map';
 import { checkEmpty, trim, split, splitLines } from '../utils/string';
-import Config from '../../config.json';
+import Config from './../config.json';
 
 export const parseKeyMapLine = (keyMapLine: string): Readonly<KeyMap> | null => {
     if (checkEmpty(keyMapLine)) return null;
