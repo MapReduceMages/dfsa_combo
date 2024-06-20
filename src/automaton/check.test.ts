@@ -1,6 +1,6 @@
 import type { State, Actions } from '../models/state';
 import { actionAreComboCheck, actionsAreStartOfComboCheck } from './check';
-import config from "../../config.json"
+import config from "./../config.json"
 import Immutable from 'immutable';
 import GameSet from '../models/game_set';
 import KeyMap from '../models/key_map';

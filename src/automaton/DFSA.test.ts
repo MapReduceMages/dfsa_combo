@@ -1,6 +1,6 @@
 import { INITIAL_STATE, EMPTY_STATE } from '../models/state';
 import DFSA from './DFSA';
-import config from "../../config.json"
+import config from "./../config.json"
 import Immutable from 'immutable';
 import GameSet from '../models/game_set';
 import KeyMap from '../models/key_map';

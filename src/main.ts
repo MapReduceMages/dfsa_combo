@@ -13,9 +13,8 @@ import GameSet from './models/game_set';
 
 const KEY_TIMEOUT = 200;
 
-const handleError = (msg: string, yg?: any) => {
+const handleError = (msg: string) => {
 	console.error('[ERROR]', msg);
-	if (yg) console.log(yg.help());
 	process.exit(1);
 };
 
@@ -74,8 +73,6 @@ const processStateForDisplay = (gameset: GameSet) => (state: State) : string => 
 
 		return moveString + '\n' + comboString;
 	}
-
-	state = EMPTY_STATE;
 	return "";
 }
 
@@ -85,6 +82,10 @@ const main = () => {
 		handleError('Not a TTY');
 	}
 
+    // setup TTY
+    enableRawTTY();
+
+	// get grammar file arg
     const args = getArgs(process.argv);
 	if (args.length < 1)
 		handleError("Grammar file not provided")
@@ -111,8 +112,6 @@ const main = () => {
     console.log(keyDisplay(machine.gameSet.keyMaps));
     console.log("-----------------------------------------");
 
-    // setup TTY
-    enableRawTTY();
 
 	var state : State = INITIAL_STATE;
 	const visualizeMoves = processStateForDisplay(machine.gameSet);
@@ -127,7 +126,6 @@ const main = () => {
 		// timeout
 		() => {
 			console.log(visualizeMoves(state));
-
 			state = EMPTY_STATE;
 		}
 	);

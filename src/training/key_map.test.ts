@@ -1,5 +1,5 @@
 import { parseKeyMapLine, parseKeyMapPart } from './key_map';
-import Config from '../../config.json';
+import Config from './../config.json';
 import KeyMap from '../models/key_map';
 import Immutable from 'immutable';
 

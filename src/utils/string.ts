@@ -1,5 +1,5 @@
 import Immutable from "immutable";
-import Config from '../../config.json';
+import Config from './../config.json';
 
 export const trim = (str: string): string => {
     const length = str.length;

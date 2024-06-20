@@ -1,5 +1,5 @@
 import { parseComboLine, parseComboPart } from './combo';
-import Config from '../../config.json';
+import Config from './../config.json';
 import Combo from '../models/combo';
 import Immutable from 'immutable';
 
