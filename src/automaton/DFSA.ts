@@ -1,5 +1,5 @@
 import GameSet from "../models/game_set";
-import { EMPTY_STATE, INITIAL_STATE, type State } from '../models/state';
+import { EMPTY_STATE, type State } from '../models/state';
 import { actionAreComboCheck } from './check'
 import { stateToActions, cleanState, combosToState } from './state'
 
@@ -10,7 +10,7 @@ const DFSA = (gameset: Readonly<GameSet>) => (state: State) => (key: string): St
     if (action === undefined) return EMPTY_STATE;
 
     // ------------------------------------------------ check combo
-    const actions = stateToActions(state).push(action);
+    const actions = stateToActions(gameset)(state).push(action);
     const combos = actionAreComboCheck(gameset)(actions);
     if (!combos.isEmpty()) return combosToState(combos);
 

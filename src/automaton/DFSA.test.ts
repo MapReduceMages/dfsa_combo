@@ -17,6 +17,10 @@ describe('DFSA', () => {
         ]),
         combos: Immutable.List<Combo>([
             { name: "COMBO_AB", actions: Immutable.List(['ACTION_A', 'ACTION_B']) },
+            { name: "COMBO_ABA", actions: Immutable.List(['ACTION_A', 'ACTION_B', 'ACTION_A']) },
+            { name: "COMBO_ABA_2", actions: Immutable.List(['ACTION_A', 'ACTION_B', 'ACTION_A']) },
+            { name: "COMBO_ABAC", actions: Immutable.List(['ACTION_A', 'ACTION_B', 'ACTION_A', 'ACTION_C']) },
+            { name: "COMBO_ABCC", actions: Immutable.List(['ACTION_A', 'ACTION_B', 'ACTION_C', 'ACTION_C']) },
             { name: "COMBO_BA", actions: Immutable.List(['ACTION_B', 'ACTION_A']) },
             { name: "COMBO_CAB", actions: Immutable.List(['ACTION_C', 'ACTION_A', 'ACTION_B']) },
             { name: "COMBO_Q", actions: Immutable.List(['ACTION_Q']) },
@@ -25,6 +29,7 @@ describe('DFSA', () => {
 
     // ------------------------------------------------- undefined action
     const undefinedActionTest = [
+        // ------------ from action
         {
             state: INITIAL_STATE,
             key: 'x',
@@ -37,6 +42,11 @@ describe('DFSA', () => {
             state: Immutable.List(["ACTION_A", "ACTION_LONG_ACTION_LONG_ACTION_LONG_ACTION_LONG_ACTION"]).join(config.splitter.comboKeyMap),
             key: 'z',
         },
+        // ------------ from combo
+        {
+            state: Immutable.List(["COMB_AB"]).join(config.splitter.comboKeyMap),
+            key: 'Z',
+        },
     ]
 
     for (const test of undefinedActionTest) {
@@ -47,6 +57,7 @@ describe('DFSA', () => {
 
     // ------------------------------------------------- to one action
     const toOneActionTest = [
+        // ------------ from action
         {
             state: INITIAL_STATE,
             key: 'a',
@@ -76,7 +87,13 @@ describe('DFSA', () => {
             state: Immutable.List(["ACTION_LONG_ACTION_LONG_ACTION_LONG_ACTION_LONG_ACTION", "ACTION_C", "ACTION_A", "ACTION_C"]).join(config.splitter.comboKeyMap),
             key: 'b',
             expected: "ACTION_B"
-        }
+        },
+        // ------------ from combo
+        {
+            state: Immutable.List(["COMB_AB"]).join(config.splitter.comboKeyMap),
+            key: 'b',
+            expected: "ACTION_B"
+        },
     ];
 
     for (const test of toOneActionTest) {
@@ -85,42 +102,9 @@ describe('DFSA', () => {
         });
     }
 
-    // ------------------------------------------------- to empty
-    const toEmptyTest = [
-        {
-            state: INITIAL_STATE,
-            key: 'x',
-        },
-        {
-            state: EMPTY_STATE,
-            key: 'y',
-        },
-        {
-            state: "ACTION_A",
-            key: 'z',
-        },
-        {
-            state: Immutable.List(["ACTION_A", "ACTION_C"]).join(config.splitter.comboKeyMap),
-            key: '1',
-        },
-        {
-            state: Immutable.List(["ACTION_C", "ACTION_A", "ACTION_C"]).join(config.splitter.comboKeyMap),
-            key: '@',
-        },
-        {
-            state: Immutable.List(["ACTION_LONG_ACTION_LONG_ACTION_LONG_ACTION_LONG_ACTION", "ACTION_C", "ACTION_A", "ACTION_C"]).join(config.splitter.comboKeyMap),
-            key: '!',
-        }
-    ];
-
-    for (const test of toEmptyTest) {
-        it(`to on action [${test.state}] + [${test.key}] to [${EMPTY_STATE}]`, () => {
-            expect(DFSA(gameset)(test.state)(test.key)).toBe(EMPTY_STATE)
-        });
-    }
-
     // ------------------------------------------------- to start of combo
     const toStartOfComboTests = [
+        // ------------ from action
         {
             state: Immutable.List(["ACTION_A", "ACTION_C"]).join(config.splitter.comboKeyMap),
             key: 'a',
@@ -136,6 +120,12 @@ describe('DFSA', () => {
             key: 'a',
             expected: Immutable.List(["ACTION_C", "ACTION_A"]).join(config.splitter.comboKeyMap),
         },
+        // ------------ from combo
+        {
+            state: Immutable.List(["COMBO_AB"]).join(config.splitter.comboKeyMap),
+            key: 'c',
+            expected: Immutable.List(["ACTION_A", "ACTION_B", "ACTION_C"]).join(config.splitter.comboKeyMap),
+        },
     ];
 
     for (const test of toStartOfComboTests) {
@@ -146,6 +136,7 @@ describe('DFSA', () => {
 
     // ------------------------------------------------- to combo
     const toComboTests = [
+        // ------------ from action
         {
             state: INITIAL_STATE,
             key: 'q',
@@ -170,6 +161,22 @@ describe('DFSA', () => {
             state: Immutable.List(["ACTION_C", "ACTION_A"]).join(config.splitter.comboKeyMap),
             key: 'b',
             expected: "COMBO_CAB"
+        },
+        // ------------ from combo
+        {
+            state: Immutable.List(["COMBO_AB"]).join(config.splitter.comboKeyMap),
+            key: 'a',
+            expected: Immutable.List(["COMBO_ABA", "COMBO_ABA_2"]).join(config.splitter.comboKeyMap),
+        },
+        {
+            state: Immutable.List(["COMBO_ABA"]).join(config.splitter.comboKeyMap),
+            key: 'c',
+            expected: Immutable.List(["COMBO_ABAC"]).join(config.splitter.comboKeyMap),
+        },
+        {
+            state: Immutable.List(["COMBO_ABA", "COMBO_ABA_2"]).join(config.splitter.comboKeyMap),
+            key: 'c',
+            expected: Immutable.List(["COMBO_ABAC"]).join(config.splitter.comboKeyMap),
         },
     ];
 
