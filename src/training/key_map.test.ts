@@ -53,12 +53,12 @@ describe('parseKeyMapLine', () => {
 
     for (const missingSideLine of missingSideLines) {
         it(`missing side: ${missingSideLine}`, () => {
-            expect(() => parseKeyMapLine(missingSideLine)).toThrow();
+            expect(parseKeyMapLine(missingSideLine)).toBeInstanceOf(Error);
         });
     }
 
     it(`no separator`, () => {
-        expect(() => parseKeyMapLine('abcd')).toThrow();
+        expect(parseKeyMapLine('abcd')).toBeInstanceOf(Error);
     });
 
     const toManySideLines = [
@@ -70,7 +70,7 @@ describe('parseKeyMapLine', () => {
 
     for (const toManySideLine of toManySideLines) {
         it(`to many side: ${toManySideLine}`, () => {
-            expect(() => parseKeyMapLine(toManySideLine)).toThrow();
+            expect(parseKeyMapLine(toManySideLine)).toBeInstanceOf(Error);
         });
     }
 });
@@ -120,7 +120,7 @@ describe('parseKeyMapPart', () => {
     const emptyKeyMap = '';
 
     it('empty', () => {
-        expect(() => parseKeyMapPart(emptyKeyMap)).toThrow();
+        expect(parseKeyMapPart(emptyKeyMap)).toBeInstanceOf(Error);
     });
 
     const missingSideKeyMaps = [
@@ -140,19 +140,19 @@ describe('parseKeyMapPart', () => {
 
     for (const missingSideKeyMap of missingSideKeyMaps) {
         it(`missing side: ${missingSideKeyMap.replace(new RegExp("\n", 'g'), " / ")}`, () => {
-            expect(() => parseKeyMapPart(missingSideKeyMap)).toThrow();
+            expect(parseKeyMapPart(missingSideKeyMap)).toBeInstanceOf(Error);
         });
     }
 
     it("all missing sides", () => {
-        expect(() => parseKeyMapPart(missingSideKeyMaps.join("\n"))).toThrow();
+        expect(parseKeyMapPart(missingSideKeyMaps.join("\n"))).toBeInstanceOf(Error);
     })
 
     testIndexLabel = 0;
     for (const invalidCorruptedMissingSideKeyMap of validKeyMaps) {
         const computedinValidCorruptedMissingSideKeyMap = invalidCorruptedMissingSideKeyMap.map((combo) => `${combo.key}${Config.splitter.keyMap}${combo.action}`).join('\n') + "\n" + missingSideKeyMaps[0] + "\n";
         it(`corrupted combo part (missing side) ${testIndexLabel++}`, () => {
-            expect(() => parseKeyMapPart(computedinValidCorruptedMissingSideKeyMap)).toThrow();
+            expect(parseKeyMapPart(computedinValidCorruptedMissingSideKeyMap)).toBeInstanceOf(Error);
         });
     }
 });

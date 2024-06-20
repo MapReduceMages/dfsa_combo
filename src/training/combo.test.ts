@@ -90,12 +90,12 @@ describe('parseComboLine', () => {
 
     for (const missingSideLine of missingSideLines) {
         it(`missing side: ${missingSideLine}`, () => {
-            expect(() => parseComboLine(missingSideLine)).toThrow();
+            expect(parseComboLine(missingSideLine)).toBeInstanceOf(Error);
         });
     }
 
     it(`no separator`, () => {
-        expect(() => parseComboLine('abcd')).toThrow();
+        expect(parseComboLine('abcd')).toBeInstanceOf(Error);
     });
 
     const toManySideLines = [
@@ -107,7 +107,7 @@ describe('parseComboLine', () => {
 
     for (const toManySideLine of toManySideLines) {
         it(`to many side: ${toManySideLine}`, () => {
-            expect(() => parseComboLine(toManySideLine)).toThrow();
+            expect(parseComboLine(toManySideLine)).toBeInstanceOf(Error);
         });
     }
 
@@ -118,7 +118,7 @@ describe('parseComboLine', () => {
 
     for (const emptyRightSideKeyMapLine of emptyRightSideKeyMapLines) {
         it(`empty right side key map: ${emptyRightSideKeyMapLine}`, () => {
-            expect(() => parseComboLine(emptyRightSideKeyMapLine)).toThrow();
+            expect(parseComboLine(emptyRightSideKeyMapLine)).toBeInstanceOf(Error);
         });
     }
 });
@@ -186,7 +186,7 @@ describe('parseComboPart', () => {
     const emptyComboPart = '';
 
     it('empty', () => {
-        expect(() => parseComboPart(emptyComboPart)).toThrow();
+        expect(parseComboPart(emptyComboPart)).toBeInstanceOf(Error);
     });
 
     const missingSideComboParts = [
@@ -206,12 +206,12 @@ describe('parseComboPart', () => {
 
     for (const missingSideComboPart of missingSideComboParts) {
         it(`missing side: ${missingSideComboPart.replace(new RegExp("\n", 'g'), " / ")}`, () => {
-            expect(() => parseComboPart(missingSideComboPart)).toThrow();
+            expect(parseComboPart(missingSideComboPart)).toBeInstanceOf(Error);
         });
     }
 
     it("all missing sides", () => {
-        expect(() => parseComboPart(missingSideComboParts.join("\n"))).toThrow();
+        expect(parseComboPart(missingSideComboParts.join("\n"))).toBeInstanceOf(Error);
     })
 
     const emptyRightSideKeyMapLines = [
@@ -221,19 +221,19 @@ describe('parseComboPart', () => {
 
     for (const emptyRightSideKeyMapLine of emptyRightSideKeyMapLines) {
         it(`empty right side key map: ${emptyRightSideKeyMapLine}`, () => {
-            expect(() => parseComboPart(emptyRightSideKeyMapLine)).toThrow();
+            expect(parseComboPart(emptyRightSideKeyMapLine)).toBeInstanceOf(Error);
         });
     }
 
     it("all empty right side key map", () => {
-        expect(() => parseComboPart(emptyRightSideKeyMapLines.join("\n"))).toThrow();
+        expect(parseComboPart(emptyRightSideKeyMapLines.join("\n"))).toBeInstanceOf(Error);
     });
 
     testIndexLabel = 0;
     for (const invalidCorruptedMissingSideComboPart of validComboParts) {
         const computedinValidCorruptedMissingSideComboPart = invalidCorruptedMissingSideComboPart.map((combo) => `${combo.name}${Config.splitter.combo}${combo.actions.toArray().join(Config.splitter.comboKeyMap)}`).join('\n') + "\n" + missingSideComboParts[0] + "\n";
         it(`corrupted combo part (missing side) ${testIndexLabel++}`, () => {
-            expect(() => parseComboPart(computedinValidCorruptedMissingSideComboPart)).toThrow();
+            expect(parseComboPart(computedinValidCorruptedMissingSideComboPart)).toBeInstanceOf(Error);
         });
     }
 
@@ -241,7 +241,7 @@ describe('parseComboPart', () => {
     for (const invalidCorruptedEmtpyRightSideKeyMapComboPart of validComboParts) {
         const computedinValidCorruptedEmtpyRightSideKeyMapComboPart = invalidCorruptedEmtpyRightSideKeyMapComboPart.map((combo) => `${combo.name}${Config.splitter.combo}${combo.actions.toArray().join(Config.splitter.comboKeyMap)}`).join('\n') + "\n" + emptyRightSideKeyMapLines[0] + "\n";
         it(`corrupted combo part (missing right side key map) ${testIndexLabel++}`, () => {
-            expect(() => parseComboPart(computedinValidCorruptedEmtpyRightSideKeyMapComboPart)).toThrow();
+            expect(parseComboPart(computedinValidCorruptedEmtpyRightSideKeyMapComboPart)).toBeInstanceOf(Error);
         });
     }
 });

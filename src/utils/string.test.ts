@@ -129,11 +129,11 @@ describe('split', () => {
             separator: ".",
             expected: Immutable.List(["", "", "a", "", "", "", "b", "c", ""]),
         },
-        // {
-        //     content: "..a....b.c..",
-        //     separator: ".",
-        //     expected: Immutable.List(["", "", "a", "", "", "" ,"b", "c", "", ""]),
-        // },
+        {
+            content: "..a....b.c..",
+            separator: ".",
+            expected: Immutable.List(["", "", "a", "", "", "" ,"b", "c", "", ""]),
+        },
     ];
 
     for (const test of tests) {

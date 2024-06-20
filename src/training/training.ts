@@ -8,8 +8,10 @@ export interface TrainingOutput {
     automaton: Automaton
 }
 
-const training = (grammar: string): TrainingOutput => {
+const training = (grammar: string): TrainingOutput | Error => {
     const gameSet = parse(grammar)
+    if (gameSet instanceof Error) return gameSet
+
     const automaton = DFSA(gameSet)
 
     return <TrainingOutput>{
