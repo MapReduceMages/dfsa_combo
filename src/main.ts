@@ -67,7 +67,8 @@ const main = () => {
 	)(
 		// timeout
 		() => {
-			console.log(visualizeMoves(state));
+			const moves = visualizeMoves(state)
+			if (moves.trim().length !== 0) console.log(moves);
 			state = EMPTY_STATE;
 		}
 	);
