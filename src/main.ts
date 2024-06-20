@@ -7,8 +7,9 @@ import readline from 'readline';
 import comboDisplay from './utils/combo_display';
 import keyDisplay from './utils/key_display';
 import training, { TrainingOutput } from './training/training';
-import { EMPTY_STATE, INITIAL_STATE } from './models/state';
-import { stateToActions } from './automaton/state';
+import { EMPTY_STATE, INITIAL_STATE, State } from './models/state';
+import { stateToCombos } from './automaton/state';
+import GameSet from './models/game_set';
 
 const KEY_TIMEOUT = 200;
 
@@ -62,6 +63,21 @@ const handleTTYInputs =
 	});
 }
 
+const processStateForDisplay = (gameset: GameSet) => (state: State) : string => {
+	if (state.length > 0) {
+		const combos = stateToCombos(gameset)(state);
+
+		// moves
+		const moveString = combos.first()?.actions.reduce((acc, action) => acc += `[${action}] `, '') ?? '';
+		// combos
+		const comboString = combos.reduce((acc, combo) => acc += combo.name + '\n', '');
+
+		return moveString + '\n' + comboString;
+	}
+
+	state = EMPTY_STATE;
+	return "";
+}
 
 const main = () => {
 	// check TTY
@@ -98,7 +114,9 @@ const main = () => {
     // setup TTY
     enableRawTTY();
 
-	var state = INITIAL_STATE;
+	var state : State = INITIAL_STATE;
+	const visualizeMoves = processStateForDisplay(machine.gameSet);
+
 	// send inputs to state machine
 	handleTTYInputs(
 		// update
@@ -108,9 +126,7 @@ const main = () => {
 	)(
 		// timeout
 		() => {
-			if (state.length > 0) {
-				console.log(`${state}\n`);
-			}
+			console.log(visualizeMoves(state));
 
 			state = EMPTY_STATE;
 		}
