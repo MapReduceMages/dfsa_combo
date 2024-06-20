@@ -23,7 +23,7 @@ export const combosToState = (combos: Immutable.List<Combo>): State => {
 
 // stateToCombos converts a state to a list of combos
 export const stateToCombos = (gameset: Readonly<GameSet>) => (state: State): Immutable.List<Combo> => {
-    return split(state)(config.splitter.comboKeyMap)
+    return split(config.splitter.comboKeyMap)(state)
         .map((combo) => gameset.combos.find((c) => c.name === combo))
         .filter((c) => c !== undefined) as Immutable.List<Combo>;
 }
