@@ -38,7 +38,7 @@ COMBO_BBC=action_b+action_b+action_c
 npm run test
 ```
 
-<img src="https://github.com/MapReduceMages/dfsa_combo/blob/main/.demo/tests.png" alt="tests" />
+<img src="https://github.com/MapReduceMages/dfsa_combo/blob/main/.demo/tests2.png" alt="tests" />
 
 ## About
 
