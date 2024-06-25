@@ -2,7 +2,7 @@
 
 A [Deterministic Finite State Automaton](https://en.wikipedia.org/wiki/Deterministic_finite_automaton) (DFSA) that detects combos in a fighting game.
 
-![Recordit GIF](https://raw.githubusercontent.com/MapReduceMages/dfsa_combo/main/.demo/terminal.gif)
+![Recordit GIF](https://github.com/MapReduceMages/dfsa_combo/blob/main/.demo/terminal.gif)
 
 ## Usage
 
