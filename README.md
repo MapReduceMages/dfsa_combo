@@ -32,6 +32,14 @@ COMBO_BBC=action_b+action_b+action_c
 
 > It is possible to have multiple combos with the same sequence of actions. In this case, the DFSA will detect the longest combo first.
 
+## Tests
+
+```bash
+npm run test
+```
+
+<img src="https://github.com/MapReduceMages/dfsa_combo/blob/main/.demo/tests.png" alt="tests" />
+
 ## About
 
 A [Deterministic Finite State Automaton](https://en.wikipedia.org/wiki/Deterministic_finite_automaton) (DFSA) is a subset of a [Finite State Machine](https://en.wikipedia.org/wiki/Finite-state_machine) (FSM) that has a finite number of states and transitions between those states. The DFSA is deterministic in that it has exactly one transition for each possible input from a given state. This means that the DFSA will always be in exactly one state at any given time.
